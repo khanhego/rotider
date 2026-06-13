@@ -11,6 +11,8 @@
   --border: #e5e7eb;
   --surface: #f9fafb;
   --footer: #111827;
+  --dark: #0f172a;
+  --dark-muted: #94a3b8;
   --container-max: 1440px;
 }
 
@@ -25,6 +27,8 @@
   --color-border: var(--border);
   --color-surface: var(--surface);
   --color-footer: var(--footer);
+  --color-dark: var(--dark);
+  --color-dark-muted: var(--dark-muted);
   --font-sans: var(--font-inter);
   --breakpoint-xs: 390px;
   --breakpoint-3xl: 1600px;
