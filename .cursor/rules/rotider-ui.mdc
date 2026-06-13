@@ -1,0 +1,82 @@
+---
+description: Rotider UI conventions — responsive, component reuse, web/src structure
+globs: web/**/*
+alwaysApply: true
+---
+
+# Rotider — UI & Frontend Structure
+
+Tham chiếu: `FEATURES.md` §11, `Rotider-Website-Proposal.html` §8.
+
+## 1. Source layout — mọi code UI trong `web/src`
+
+Toàn bộ code và logic UI nằm dưới `web/src/`. Không thêm component, hook, hay style UI ở ngoài `web/src`.
+
+```
+web/src/
+  app/              # Next.js App Router — route mỏng, re-export từ views/
+  views/            # Page view components — logic UI, data fetch (page mới tạo ở đây)
+  components/       # Base / shared components (xem §2)
+  lib/              # CMS client, config, SEO, utils
+  types/            # TypeScript types
+```
+
+- `src/views/*.tsx` chứa page view component — **không** phải routing.
+- `app/**/page.tsx` re-export `default` và `generateMetadata` từ `@/views/<name>`.
+- `revalidate` khai báo trực tiếp trong `page.tsx` — không re-export.
+- Import alias `@/` → `web/src/`.
+
+## 2. Component tái sử dụng
+
+**Component dùng chung** (dùng ≥2 nơi hoặc là primitive UI) → `web/src/components/`.
+
+| Thư mục | Mục đích |
+|---|---|
+| `components/ui/` | Primitive: Button, Input, Badge, Card… |
+| `components/layout/` | Header, Footer, Container, MobileMenu |
+| `components/sections/` | Section theo trang (Hero, ServicesGrid…) — compose từ base |
+| `components/seo/` | JsonLd và metadata helpers |
+
+Quy tắc:
+- Không duplicate markup/style — extract thành base component trước khi copy-paste.
+- Props typed rõ ràng; tránh hardcode nội dung — nhận data từ CMS/props.
+- Section chỉ chứa layout section; logic dùng chung → `lib/` hoặc custom hook trong `lib/`.
+
+```tsx
+// ✅ GOOD — section dùng base components
+import { Container } from "@/components/layout/Container";
+import { Button } from "@/components/ui/Button";
+
+// ❌ BAD — duplicate button styles trong nhiều section
+<button className="rounded-lg bg-blue-600 px-4 py-2 ...">
+```
+
+## 3. Responsive — 7 breakpoint bắt buộc
+
+Mọi UI phải responsive theo đúng 7 breakpoint trong tài liệu thiết kế:
+
+| Breakpoint | Thiết bị | Hành vi chính |
+|---|---|---|
+| **1760px** | Desktop lớn | Layout full, spacing rộng |
+| **1600px** | Desktop | Điều chỉnh container width |
+| **1440px** | Desktop / Laptop | Layout chuẩn desktop |
+| **1280px** | Tablet ngang | Giảm cột, typography nhỏ hơn |
+| **1024px** | Tablet | Nav chuyển mobile menu (hamburger) |
+| **768px** | Tablet dọc | Stack layout, gallery 1–2 cột |
+| **390px** | Mobile | Single column, CTA touch-friendly |
+
+Triển khai:
+- **Mobile-first**: style mặc định cho 390px, mở rộng dần lên breakpoint lớn hơn.
+- Dùng Tailwind responsive (`sm:`, `md:`, `lg:`, `xl:`, `2xl:`) hoặc custom screen map đúng 7 mốc trên.
+- Ảnh: `next/image` với `sizes` phù hợp từng viewport; gallery stack trên ≤768px.
+- Header: desktop nav ≥1024px; hamburger + drawer/panel <1024px.
+- Không ship UI chỉ test desktop — verify layout tại 390, 768, 1024, 1280, 1440, 1600, 1760px.
+
+```tsx
+// ✅ GOOD — responsive grid + image sizes
+<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+<Image sizes="(max-width: 768px) 100vw, (max-width: 1440px) 50vw, 600px" ... />
+
+// ❌ BAD — fixed width, không breakpoint
+<div className="w-[1200px] grid grid-cols-4">
+```
