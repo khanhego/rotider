@@ -1,28 +1,25 @@
 import { Container } from '@/components/layout/Container';
-import type { ClientLogosBlock, ContentBlock } from '@/types/cms';
 
-interface SectionProps {
-  data: ContentBlock;
-}
+const logos = [
+  'SUMMIT REALTY',
+  'URBAN NEST',
+  'BLUE OAK',
+  'PINNACLE',
+  'HARBOR HOMES',
+  'SKYLINE GROUP',
+] as const;
 
-export function ClientLogosSection({ data }: SectionProps) {
-  const block = data as ClientLogosBlock;
-
+export function ClientLogosSection() {
   return (
-    <section className="py-12 md:py-16" data-section="client-logos">
+    <section className="border-y border-border bg-white py-10 md:py-12" data-section="client-logos">
       <Container as="section">
-        {block.heading && (
-          <p className="text-center text-sm font-semibold uppercase tracking-wider text-muted">
-            {block.heading}
-          </p>
-        )}
-        <ul className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
-          {block.items.map((item) => (
+        <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-14 lg:gap-x-20">
+          {logos.map((name) => (
             <li
-              key={item.id}
-              className="flex h-12 min-w-[120px] items-center justify-center rounded-lg border border-dashed border-slate-300 px-6 text-sm font-medium text-muted"
+              key={name}
+              className="text-sm font-bold tracking-widest text-muted/60 grayscale transition-all hover:text-muted hover:grayscale-0 md:text-base"
             >
-              {item.name}
+              {name}
             </li>
           ))}
         </ul>

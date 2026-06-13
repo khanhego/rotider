@@ -1,8 +1,8 @@
 export const siteConfig = {
-  name: 'Rotider',
+  name: 'ROTIDER MEDIA',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rotider.com',
   defaultDescription:
-    'Professional photo editing, video editing, and property visualization for real estate.',
+    'Professional real estate photo, video, and 3D editing services for agents and photographers nationwide.',
 } as const;
 
 export const mainNav = [
@@ -12,14 +12,13 @@ export const mainNav = [
     children: [
       { label: 'Photo Editing', href: '/services/photo-editing' },
       { label: 'Video Editing', href: '/services/video-editing' },
-      { label: 'Property Visualization', href: '/services/property-visualization' },
+      { label: 'Virtual Staging', href: '/services/virtual-staging' },
     ],
   },
-  { label: 'Portfolio', href: '/portfolio' },
-  { label: 'About', href: '/about' },
-  { label: 'Pricing', href: '/pricing' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Company', href: '/about' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Pricing', href: '/pricing' },
 ] as const;
 
 export const footerNav = {
@@ -27,15 +26,22 @@ export const footerNav = {
     { label: 'About Us', href: '/about' },
     { label: 'Career', href: '/career' },
     { label: 'Contact', href: '/contact' },
+    { label: 'Blog', href: '/blog' },
   ],
   services: [
     { label: 'Photo Editing', href: '/services/photo-editing' },
     { label: 'Video Editing', href: '/services/video-editing' },
-    { label: 'Property Visualization', href: '/services/property-visualization' },
+    { label: 'Virtual Staging', href: '/services/virtual-staging' },
+    { label: 'Day to Dusk', href: '/services/day-to-dusk' },
   ],
-  resources: [
-    { label: 'Portfolio', href: '/portfolio' },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Blog', href: '/blog' },
+  portfolio: [
+    { label: 'Photo Gallery', href: '/portfolio/photo' },
+    { label: 'Video Gallery', href: '/portfolio/video' },
+    { label: 'Virtual Staging', href: '/portfolio/staging' },
+  ],
+  pricing: [
+    { label: 'Photo Pricing', href: '/pricing/photo' },
+    { label: 'Video Pricing', href: '/pricing/video' },
+    { label: 'Staging Pricing', href: '/pricing/staging' },
   ],
 } as const;

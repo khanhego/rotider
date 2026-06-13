@@ -1,21 +1,32 @@
 import type { Metadata } from 'next';
-import { PageRenderer } from '@/components/PageRenderer';
 import { OrganizationJsonLd } from '@/components/seo/JsonLd';
-import { getHomepage } from '@/lib/cms/queries/homepage';
-import { generatePageMetadata } from '@/lib/seo/generate-page-metadata';
+import { ClientLogosSection } from '@/components/sections/ClientLogosSection';
+import { ConversionCtaSection } from '@/components/sections/ConversionCtaSection';
+import { HeroSection } from '@/components/sections/HeroSection';
+import { HowItWorksSection } from '@/components/sections/HowItWorksSection';
+import { ServicesGridSection } from '@/components/sections/ServicesGridSection';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
+import { WhyChooseUsSection } from '@/components/sections/WhyChooseUsSection';
+import { siteConfig } from '@/lib/config/site';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getHomepage();
-  return generatePageMetadata(page.seo, '/');
+  return {
+    title: `${siteConfig.name} — Real Estate Photo & Video Editing`,
+    description: siteConfig.defaultDescription,
+  };
 }
 
-export default async function HomePage() {
-  const page = await getHomepage();
-
+export default function HomePage() {
   return (
     <>
       <OrganizationJsonLd />
-      <PageRenderer sections={page.sections} />
+      <HeroSection />
+      <WhyChooseUsSection />
+      <ServicesGridSection />
+      <HowItWorksSection />
+      <TestimonialsSection />
+      <ClientLogosSection />
+      <ConversionCtaSection />
     </>
   );
 }
